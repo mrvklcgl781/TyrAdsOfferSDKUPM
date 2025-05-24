@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: from total 3.4M TPoints
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
-  m_sharedMaterial: {fileID: -1528298932160809035, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
+  m_sharedMaterial: {fileID: -1528298932160809035, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -388,8 +388,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Discover how to level up and boost your stage!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
-  m_sharedMaterial: {fileID: -1528298932160809035, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
+  m_sharedMaterial: {fileID: -1528298932160809035, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -643,8 +643,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: MICRO CHARGE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
-  m_sharedMaterial: {fileID: -1528298932160809035, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
+  m_sharedMaterial: {fileID: -1528298932160809035, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -777,8 +777,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'you earned: 0 TPoints'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
-  m_sharedMaterial: {fileID: -1528298932160809035, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
+  m_sharedMaterial: {fileID: -1528298932160809035, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1138,8 +1138,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'earn up to 3.4M '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
-  m_sharedMaterial: {fileID: -1528298932160809035, guid: ebb064c65fc0660408d4c31c05c813b8, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
+  m_sharedMaterial: {fileID: -1528298932160809035, guid: ec6f8abf9e28b49059977b38ffea3ceb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

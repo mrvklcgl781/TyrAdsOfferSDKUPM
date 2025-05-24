@@ -225,10 +225,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -108.91585
       objectReference: {fileID: 0}
-    - target: {fileID: 6057974465031482244, guid: 2e0f7726d58194bef8f5a8e922285feb, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7332879877279562449, guid: 2e0f7726d58194bef8f5a8e922285feb, type: 3}
       propertyPath: m_Name
       value: WebView
