@@ -1,0 +1,28 @@
+{
+    "name": "com.tyradsoffer.sdk",
+    "version": "1.0.0",
+    "displayName": "TyrAds Offer SDK",
+    "description": "TyrAds Offer SDK for Unity",
+    "unity": "2020.3",
+    "dependencies": {
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+    },
+    "keywords": [
+        "tyrads",
+        "ads",
+        "sdk"
+    ],
+    "samples": [
+        {
+            "displayName": "Demo",
+            "description": "Demo for TyrAds Offer SDK",
+            "path": "Plugins/TyrOfferSDK/Runtime/Demo"
+        }
+    ],
+    "author": {
+        "name": "TyrAds",
+        "email": "support@tyrads.com",
+        "url": "https://www.tyrads.com"
+    }
+} 

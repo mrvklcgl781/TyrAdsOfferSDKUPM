@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d168ccabe4a24ffa89527d3a5acca59, type: 3}
+  m_Name: TyrAdsConfig
+  m_EditorClassIdentifier: 
+  apiKey: 0a55de10c58f459c9f65988d9d33e774
+  apiSecret: 418fc08c18a6715b48428568946e6f82f0ff06bfbc017944d22a19b3317a5ce2ad7028b0599a149534d957017d54650a9fa355cebf6971d7fdbc3eca372ca4ed
+  defaultUserId: default_user
+  apiHost: https://api.tyrads.com
+  apiVersion: v2.0
+  language: en
+  sdkVersion: 1.2.179
+  sdkPlatform: Unity
