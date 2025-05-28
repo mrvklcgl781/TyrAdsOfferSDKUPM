@@ -41,12 +41,13 @@ namespace TyrDK
     {
         public int Id;
         public string MainText;
-        public string PointText;
+        public int PointAmount;
         public string CompleteText;
         public bool IsActive;
         public float Progress;
         public Sprite PointIcon;
         public string EventCategory;
+        public string CurrencyName;
     }
     
     public struct TyrMicroChargeEventViewConfig
@@ -59,5 +60,6 @@ namespace TyrDK
         public string ProgressAmountText;
         public string ProgressText;
         public int? BonusAmount;
+        public string CurrencyName;
     }
 }

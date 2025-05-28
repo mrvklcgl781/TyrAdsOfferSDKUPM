@@ -29,15 +29,15 @@ namespace TyrDK
             }
         }
 
-        public void ShowOfferWallDetails(int campaignId)
+        public void ShowOfferWallDetails(int campaignId, Action onBackButtonClicked = null)
         {
             if (TyrOfferSDKService.Instance== null)
             {
-                TyrOfferSDKService.OnServiceInitialized += ()=>TyrOfferSDKService.Instance.ShowOfferWallDetails(campaignId);
+                TyrOfferSDKService.OnServiceInitialized += ()=>TyrOfferSDKService.Instance.ShowOfferWallDetails(campaignId,onBackButtonClicked);
             }
             else
             {
-                TyrOfferSDKService.Instance.ShowOfferWallDetails(campaignId);
+                TyrOfferSDKService.Instance.ShowOfferWallDetails(campaignId,onBackButtonClicked);
             }
         }
     }

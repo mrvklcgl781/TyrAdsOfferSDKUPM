@@ -8,59 +8,108 @@ public class ConditionalScrollController : MonoBehaviour
     [SerializeField] private RectTransform upperElement;
     [SerializeField] private RectTransform lowerElement;
 
-    private float upperY, lowerX;
-    private float minX, maxX, minY, maxY;
-    private RectTransform content;
-
-    void Start()
+    private float _upperY, _lowerX;
+    private RectTransform _content;
+    private bool _isInitialized = false;
+    private Action _onUpdate;
+    private bool _wasHorizontalScrolling = false;
+    private Vector2 _lastContentPosition;
+    public event Action OnHorizontalScroll, OnVerticalScroll;
+    public RectTransform Content
+    {
+        get
+        {
+            if (!_content)
+            {
+                if (!scrollRect)
+                    scrollRect = GetComponent<ScrollRect>();
+                _content = scrollRect.content;
+            }
+            return _content;
+        }
+    }
+    
+    public Vector2 GetContentAreaTopLeftPosition()
     {
         if (!scrollRect)
             scrollRect = GetComponent<ScrollRect>();
-        upperY = upperElement.anchoredPosition.y;
-        lowerX = lowerElement.anchoredPosition.x;
-
-        var widthUpper = upperElement.rect.width;
-        var widthLower = lowerElement.rect.width;
-        var heightUpper = upperElement.rect.height;
-        var heightLower = lowerElement.rect.height;
-        content = scrollRect.content;
-        minX = Mathf.Min(upperElement.anchoredPosition.x - widthUpper/2f, lowerElement.anchoredPosition.x - widthLower/2f);
-        maxX = Mathf.Max(upperElement.anchoredPosition.x + widthUpper/2f, lowerElement.anchoredPosition.x + widthLower/2f);
-        minY = Mathf.Min(upperElement.anchoredPosition.y - heightUpper/2f, lowerElement.anchoredPosition.y - heightLower/2f);
-        maxY = Mathf.Max(upperElement.anchoredPosition.y + heightUpper/2f, lowerElement.anchoredPosition.y + heightLower/2f);
+        _content = scrollRect.content;
+        return new Vector2(_content.anchoredPosition.x - _content.rect.width / 2, _content.anchoredPosition.y + _content.rect.height / 2);
     }
     
+    public void SetConditional(Vector2 size)
+    {
+        if (!scrollRect)
+            scrollRect = GetComponent<ScrollRect>();
+        
+        _content.sizeDelta = size;
+        _upperY = _content.transform.position.y;
+        _lowerX = _content.transform.position.x;
+        scrollRect.movementType = ScrollRect.MovementType.Clamped;
+        
+        _isInitialized = true;
+        _onUpdate = OnConditionalUpdate;
+        _lastContentPosition = _content.anchoredPosition;
+    }
+    
+    
+    public void SetRegularHorizontalScroll(Vector2 position,Vector2 size)
+    {
+        if (!scrollRect)
+            scrollRect = GetComponent<ScrollRect>();
+            
+        _content = scrollRect.content;
+        _content.sizeDelta = size;
+        _content.anchoredPosition = position;
+        scrollRect.movementType = ScrollRect.MovementType.Clamped;
+        scrollRect.horizontal = true;
+        scrollRect.vertical = false;
+        _isInitialized = true;
+        _lastContentPosition = position;
+    }
+
+    private void OnConditionalUpdate()
+    {
+        if (!_isInitialized) return;
+        var worldPos = _content.transform.position;
+        if (worldPos.x >= _lowerX)
+        {
+            scrollRect.vertical = true;
+            scrollRect.horizontal = true;
+        }
+        else if(worldPos.y < _upperY)
+        {
+            // In between, only vertical
+            scrollRect.vertical = true;
+            scrollRect.horizontal = false;
+            _wasHorizontalScrolling = false;
+        }
+        if (_isInitialized && _content != null)
+        {
+            DetectHorizontalScrolling();
+        }
+    }
 
     private void Update()
     {
-        var clampedPos = content.anchoredPosition;
-        clampedPos.x = Mathf.Clamp(clampedPos.x, minX, maxX);
-        clampedPos.y = Mathf.Clamp(clampedPos.y, minY, maxY);
-        content.anchoredPosition = clampedPos;
-        var pos = scrollRect.content.anchoredPosition;
-        if (Mathf.Approximately(pos.x, lowerX))
+        _onUpdate?.Invoke();
+    }
+    private void DetectHorizontalScrolling()
+    {
+        Vector2 currentPosition = _content.anchoredPosition;
+        if (Mathf.Abs(currentPosition.x - _lastContentPosition.x) > 0.1f)
         {
-            scrollRect.vertical = true;
-            scrollRect.horizontal = true;
+            if (!_wasHorizontalScrolling)
+            {
+                _wasHorizontalScrolling = true;
+                OnHorizontalScroll?.Invoke();
+            }
         }
-        else if (pos.x < lowerX && pos.y > upperY)
+        else
         {
-            scrollRect.vertical = false;
-            scrollRect.horizontal = true;
+            _wasHorizontalScrolling = false;
+            OnVerticalScroll?.Invoke();
         }
-        else if (pos.x > lowerX && pos.y > upperY)
-        {
-            scrollRect.vertical = true;
-            scrollRect.horizontal = false;
-        }
-        else if (pos.x > lowerX && pos.y < upperY)
-        {
-            content.anchoredPosition = clampedPos;
-        }
-        else if (pos.x < lowerX && pos.y > upperY)
-        {
-            scrollRect.vertical = true;
-            scrollRect.horizontal = false;
-        }
+        _lastContentPosition = currentPosition;
     }
 }

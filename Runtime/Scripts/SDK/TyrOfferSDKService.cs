@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ namespace TyrDK
             }
         }
         
-        public void ShowOfferWallDetails(int campaignId)
+        public void ShowOfferWallDetails(int campaignId, Action onBackButtonClicked)
         {
             Debug.Log($"Showing Offer Wall for User ID: {_userId}, Campaign ID: {campaignId}");
             if (API.ProcessType == TyrOfferApiProcessType.Initialize)
@@ -63,18 +64,18 @@ namespace TyrDK
                 if(API.Process == TyrOfferApiProcess.NotStarted)
                 {
                     API.OnSdkInitialized += (res) => API.GetCampaignDetails(campaignId);
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                     InitializeSDK();
                 }
                 else if (API.Process == TyrOfferApiProcess.InProgress)
                 {
                     API.OnSdkInitialized += (res) => API.GetCampaignDetails(campaignId);
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                 }
                 else if (API.Process == TyrOfferApiProcess.Completed)
                 {
                     Debug.Log("SDK is already initialized, fetching campaign details.");
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                     API.GetCampaignDetails(campaignId);
                 }
             }
@@ -83,17 +84,17 @@ namespace TyrDK
                 if(API.Process == TyrOfferApiProcess.NotStarted)
                 {
                     API.OnCampaignsReceived += (res) => API.GetCampaignDetails(campaignId);
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                     API.GetCampaigns();
                 }
                 else if (API.Process == TyrOfferApiProcess.InProgress)
                 {
                     API.OnCampaignsReceived += (res) => API.GetCampaignDetails(campaignId);
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                 }
                 else if (API.Process == TyrOfferApiProcess.Completed)
                 {
-                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data);
+                    API.OnCampaignDetailsReceived += (data) =>CreateOfferView(data,onBackButtonClicked);
                     API.GetCampaignDetails(campaignId);
                 }
             }
@@ -102,14 +103,22 @@ namespace TyrDK
                 Debug.LogError("Already fetching campaign details.");
             }
         }
-        
-        private async Task CreateOfferView(CampaignData data)
+        private async Task CreateOfferView(CampaignData data, Action onBackButtonClicked)
         {
-            offerView.gameObject.SetActive(true);
             _campaignData = data;
             var imageDownloader = new TyrDownloadService();
             Sprite icon = await imageDownloader.DownloadImage(_campaignData.app.thumbnail);
             Sprite pointIcon = await imageDownloader.DownloadImage(_campaignData.currency.adUnitCurrencyIcon);
+            Sprite appLargeImage = null;
+            var pack = _campaignData.creative.creativePacks.FirstOrDefault();
+            if (pack != null)
+            {
+                var creative = pack.creatives.FirstOrDefault();
+                if (creative != null)
+                {
+                    appLargeImage = await imageDownloader.DownloadImage(creative.fileUrl);
+                }
+            }
             TyrViewConfig config = new TyrViewConfig()
             {
                 AppIcon = icon,
@@ -123,7 +132,8 @@ namespace TyrDK
                 PlaytimeTaskViews = new List<TyrTaskViewConfig>(),
                 PayoutTaskViews = new List<TyrTaskViewConfig>(),
                 MicroChargeEventViews = new List<TyrMicroChargeEventViewConfig>(),
-                ClickUrl = _campaignData.tracking.clickUrl
+                ClickUrl = _campaignData.tracking.clickUrl,
+                AppLargeImage = appLargeImage
             };
             foreach (var item in _campaignData.playtimeEvents)
             {
@@ -133,8 +143,9 @@ namespace TyrDK
                     PointIcon = pointIcon,
                     IsActive = item.conversionStatus == "approved",
                     MainText = "Play " + TimeSpan.FromSeconds(item.timePlayedSeconds).GetMinutes(),
-                    PointText = item.payoutAmountConverted + " Points",
-                    CompleteText = TimeSpan.FromSeconds(item.payoutAmountConverted).GetMinutes() + " Played"
+                    PointAmount = item.payoutAmountConverted,
+                    CompleteText = TimeSpan.FromSeconds(item.payoutAmountConverted).GetMinutes() + " Played",
+                    CurrencyName = _campaignData.currency.adUnitCurrencyName
                 });
             }
             
@@ -147,8 +158,9 @@ namespace TyrDK
                     IsActive = item.conversionStatus == "approved",
                     MainText = item.eventName,
                     EventCategory = item.eventCategory,
-                    PointText = item.payoutAmountConverted + " Points",
-                    CompleteText = item.payoutAmountConverted + " Played"
+                    PointAmount = item.payoutAmountConverted,
+                    CompleteText = item.payoutAmountConverted + " Played",
+                    CurrencyName = _campaignData.currency.adUnitCurrencyName
                 });
             }
             
@@ -162,14 +174,15 @@ namespace TyrDK
                     PointIcon = pointIcon,
                     ProgressAmount = (float)item.count/(float)item.dailyCount,
                     ProgressText = item.eventCategory,
-                    ProgressAmountText = item.count+"/" +item.dailyCount
+                    ProgressAmountText = item.count+"/" +item.dailyCount,
+                    CurrencyName = _campaignData.currency.adUnitCurrencyName,
                 });
             }
             
             config.SortPlaytimeTaskViews();
             config.SortPayoutTaskViews();
-            
-            offerView.SetView(config);
+            offerView.gameObject.SetActive(true);
+            offerView.SetView(config, onBackButtonClicked);
         }
 
     }

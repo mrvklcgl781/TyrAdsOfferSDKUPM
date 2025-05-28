@@ -28,9 +28,8 @@ namespace Demo
 
         private void OnCampaignItemClicked(int campaignId)
         {
-            Debug.Log($"Campaign Item Clicked: {campaignId}");
-            TyrOfferSDK.Instance.ShowOfferWallDetails(campaignId);
-            scrollContent.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+            TyrOfferSDK.Instance.ShowOfferWallDetails(campaignId, ()=>gameObject.SetActive(true));
         }
     }
 }
