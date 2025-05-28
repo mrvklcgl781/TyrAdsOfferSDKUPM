@@ -1,6 +1,6 @@
 {
     "name": "com.tyradsoffer.sdk",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "displayName": "TyrAds Offer SDK",
     "description": "TyrAds Offer SDK for Unity",
     "unity": "2020.3",
