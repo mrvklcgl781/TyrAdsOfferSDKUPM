@@ -17,7 +17,7 @@
         {
             "displayName": "Demo",
             "description": "Demo for TyrAds Offer SDK",
-            "path": "Plugins/TyrOfferSDK/Runtime/Demo"
+            "path": "Samples~/"
         }
     ],
     "author": {
