@@ -10,7 +10,7 @@ namespace TyrDK
         public event Action<List<CampaignData>> OnCampaignsReceived;
         public event Action<CampaignData> OnCampaignDetailsReceived;
         public TyrOfferApiProcess Process { get; private set; } = TyrOfferApiProcess.NotStarted;
-        public TyrOfferApiProcessType ProcessType { get; private set; } = TyrOfferApiProcessType.Initialize;
+        public TyrOfferApiProcessType ProcessType { get; set; } = TyrOfferApiProcessType.Initialize;
         
         public void InitializeApi()
         {

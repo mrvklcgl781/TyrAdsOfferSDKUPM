@@ -105,6 +105,10 @@ namespace TyrDK
         }
         private async Task CreateOfferView(CampaignData data, Action onBackButtonClicked)
         {
+            onBackButtonClicked += () =>
+            {
+                API.ProcessType = TyrOfferApiProcessType.GetCampaigns;
+            };
             _campaignData = data;
             var imageDownloader = new TyrDownloadService();
             Sprite icon = await imageDownloader.DownloadImage(_campaignData.app.thumbnail);

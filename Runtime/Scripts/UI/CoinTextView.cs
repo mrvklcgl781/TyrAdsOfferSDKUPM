@@ -29,11 +29,12 @@ namespace TyrDK
         {
             if (coinIcon != null && coinText != null)
             {
-                float textWidth = -coinText.preferredWidth - spacing;
+                float textWidth = coinText.preferredWidth + spacing;
+                float coinIconWidth = coinIcon.rectTransform.sizeDelta.x;
                 coinText.rectTransform.sizeDelta = new Vector2(coinText.preferredWidth, coinText.rectTransform.sizeDelta.y);
-                coinIcon.rectTransform.anchoredPosition = new Vector2(textWidth, 0);
-                rectTransform.sizeDelta = new Vector2(textWidth + coinIcon.rectTransform.sizeDelta.x,
-                    rectTransform.sizeDelta.y);
+                coinIcon.rectTransform.anchoredPosition = new Vector2(-textWidth, 0);
+                rectTransform.sizeDelta = new Vector2(textWidth + coinIconWidth, rectTransform.sizeDelta.y);
+                coinText.rectTransform.anchoredPosition = new Vector2(coinIconWidth + spacing, 0);
             }
         }
         
